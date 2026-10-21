@@ -9,21 +9,21 @@
 
 We calculated SQL references for the same 20 revenue questions, using the course database and its conventions: prices in euro cents excluding VAT, periods inclusive at the start and exclusive at the end, and completed age on the specified date. The 20 answers in [`reference-td1.csv`](../reference-td1.csv) match the course answer key. Independent checks by another member still need to be attributed in the final submission.
 
-We ran the five proposed models with the common prompts from the course skeleton. We kept the SQL they produced and the associated verdicts, latencies, token counts and errors. The current trace files hold 98 real API attempts covering 96 distinct model/question cells. Two attempts received HTTP 429 and were followed by successful requests; no simulated or replayed responses are included.
+We ran the five proposed models with the common prompts from the course skeleton. We kept the SQL they produced and the associated verdicts, latencies, token counts and errors. The final trace files contain 102 real API attempts covering all 100 model/question cells. Two attempts received HTTP 429 and were followed by successful requests; no simulated or replayed responses are included.
 
 ## Experiment results
 
 | Model | Recorded | Correct | Incorrect | Invalid SQL | Accuracy on recorded cells |
 |---|---:|---:|---:|---:|---:|
 | A — `groq:openai/gpt-oss-120b` | 20/20 | 19 | 1 | 0 | 95% |
-| B — `groq:openai/gpt-oss-20b` | 16/20 | 14 | 2 | 0 | 87.5% |
+| B — `groq:openai/gpt-oss-20b` | 20/20 | 18 | 2 | 0 | 90% |
 | C — `openrouter:cohere/north-mini-code:free` | 20/20 | 12 | 8 | 0 | 60% |
 | D — `groq:qwen/qwen3.8-27b` | 20/20 | 16 | 4 | 0 | 80% |
 | E — `openrouter:dots-studio/dots-3-note-preview:free` | 20/20 | 13 | 6 | 1 | 65% |
 
-**Coverage:** 96 of the planned 100 model/question cells, from 98 real recorded attempts. The latest result per cell gives 74 correct answers, 21 incorrect numerical results and one invalid SQL query. There were also two HTTP 429 events before one permitted retry each (D, C19 and C20). These earlier attempts are kept in the raw traces.
+**Coverage:** all 100 planned model/question cells, from 102 real recorded API attempts. The latest result per cell gives 78 correct answers, 21 incorrect numerical results and one invalid SQL query. There were also two HTTP 429 events before one permitted retry each (D, C19 and C20). These earlier attempts are kept in the raw traces.
 
-**Missing:** Model B on C05–C08. These four cells remain `not_executed` in the comparison; they are not counted as wrong answers.
+**No missing model/question cells remain.** B's C05–C08 were four successful real Groq calls, retained separately in `state-B-C05-C08.jsonl` and `traces-B-C05-C08.csv`.
 
 ## Models × questions — view of the comparison CSV
 
@@ -32,7 +32,7 @@ We ran the five proposed models with the common prompts from the course skeleton
 | Model | C01 | C02 | C03 | C04 | C05 | C06 | C07 | C08 | C09 | C10 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| B | ✓ | × | ✓ | ✓ | — | — | — | — | ✓ | ✓ |
+| B | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | C | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × |
 | D | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | E | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × |
@@ -48,7 +48,7 @@ We ran the five proposed models with the common prompts from the course skeleton
 
 ## What the traces show
 
-The simplest period-only calculations generally worked. The most frequent failures came from the age condition, especially the requirement to be **exactly** 25 on a reference date or on the order date.
+All 20 questions were run on all five models. The simplest period-only calculations generally worked. The most frequent failures came from the age condition, especially the requirement to be **exactly** 25 on a reference date or on the order date.
 
 - **A:** C19 selects only one birth date instead of the full interval of customers who are 25 on 25 September 2026.
 - **B:** C02 uses a 2025–2026 birth-date interval, and C11 includes birth years outside the exact-age range.
@@ -79,8 +79,8 @@ The original source records for these examples can be found in [`state-B.jsonl`]
 ## Files and reproducibility evidence
 
 - [`reference-td1.csv`](../reference-td1.csv): our 20 SQL reference queries and values.
-- [`traces-td1.csv`](../traces-td1.csv) and [`traces-td1.jsonl`](../traces-td1.jsonl): all 98 real API attempts (96 latest results plus two retained HTTP 429 first attempts). Missing measurements remain blank.
-- [`model-question-comparison-en.csv`](../model-question-comparison-en.csv): one latest-result row for each of the 100 planned cells, including missing cases and trace pointers.
+- [`traces-td1.csv`](../traces-td1.csv) and [`traces-td1.jsonl`](../traces-td1.jsonl): all 102 real API attempts (100 latest results plus two retained HTTP 429 first attempts). Missing measurements remain blank.
+- [`model-question-comparison-en.csv`](../model-question-comparison-en.csv): one latest-result row for each of the 100 completed cells, including original trace pointers.
 - [`five-model-summary-en.csv`](../five-model-summary-en.csv): observed results by overlapping period, age, product and combined families, with access routes, dated public indices and documented exact-model paid prices when available. Where not documented, values are N/A with reasons.
 - [`prompts-en.md`](../prompts-en.md): the unchanged system prompt and user template from the course skeleton. Recorded prompt SHA-256 hashes agree across models for a given question.
 - [`modeles-autorises.json`](../modeles-autorises.json): the authorized provider/model pairs and their parameters from the course kit.
@@ -90,9 +90,9 @@ The model-family scores overlap because some questions use several types of filt
 
 ## Limitations and decisions
 
-We used the latest observed result per available model/question cell, so these results describe this small dataset and prompt rather than the general quality of a model. Two D cells had an HTTP 429 response before the second attempt; their first attempts remain in the original and merged traces. Measurements unavailable on rate-limited attempts remain blank. The original orchestration script is now tracked in the repository. The SHA-256-checked `bootstrap_td1.py` restores the official runtime from the student pack, and offline replay was locally verified on the 20 Model C records (12/20 correct, matching the original score). Another member should still run the README commands from a fresh clone.
+We used the latest observed result per available model/question cell, so these results describe this small dataset and prompt rather than the general quality of a model. Two D cells had an HTTP 429 response before the second attempt; their first attempts remain in the original and merged traces. Measurements unavailable on rate-limited attempts remain blank. The original orchestration script is tracked in the repository. The SHA-256-checked `bootstrap_td1.py` restores the official runtime from the student pack, and offline replay was locally verified on the 20 Model C records (12/20 correct, matching the original score). Another member should still run the README commands from a fresh clone.
 
-The missing four B cells (C05–C08) must be supplied as original traces by the assigned operator, or clearly identified as instructor-provided historical/replayed data if the instructor authorizes that route. They cannot be silently substituted with generated results.
+The final four B results (C05–C08) were provided as original JSONL and CSV traces. No cases were filled with invented, simulated or replayed model responses.
 
 ## Contributions
 
@@ -102,4 +102,4 @@ AI assistance was used to consolidate the existing experiment data, prepare the 
 
 ## Next steps
 
-Complete and upload B's C05–C08 traces, then refresh the merged trace files and both summaries. Confirm individual contributions and independent reference checks, and test reproduction from a fresh clone. Then update the README with the commands, verify the public repository, and submit its final commit hash and this report's commit-specific link on Moodle before **25 October 2026, 23:59 (Paris time)**.
+Confirm individual contributions and independent reference checks with the other group members. Have a second member run the documented fresh-clone replay and verify that it matches the 100-cell comparison. Then submit the public repository URL, the final full commit hash and this report's commit-specific link on Moodle before **25 October 2026, 23:59 (Paris time)**.
