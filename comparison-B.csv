@@ -1,7 +1,0 @@
-case_id,model_id,trace_file,cell_id,nature,status,value_cents,reference_cents,explanation
-C01,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C01,real,correct,792800,792800,Generated SQL result matches the reference.
-C02,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C02,real,incorrect,0,590320,"Broken age convention (wrong birth-date window): the SQL keeps customers born after 2025-09-25 and on or before 2026-09-25, i.e. customers aged 0 on the reference date instead of 25. The correct window is birth_date > '2000-09-25' AND birth_date <= '2001-09-25'. No customer matches, so the query returns 0. Valid SQL, HTTP 200, not an access error. The same model applied the right 25-year window on C09."
-C03,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C03,real,correct,936350,936350,Generated SQL result matches the reference.
-C04,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C04,real,correct,2826250,2826250,Generated SQL result matches the reference.
-C09,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C09,real,correct,487980,487980,Generated SQL result matches the reference.
-C10,groq:openai/gpt-oss-20b,traces-B.csv,groq:openai/gpt-oss-20b:C10,real,correct,558980,558980,Generated SQL result matches the reference.
