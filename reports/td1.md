@@ -90,7 +90,7 @@ The model-family scores overlap because some questions use several types of filt
 
 ## Limitations and decisions
 
-We used the latest observed result per available model/question cell, so these results describe this small dataset and prompt rather than the general quality of a model. Two D cells had an HTTP 429 response before the second attempt; their first attempts remain in the original and merged traces. Measurements unavailable on rate-limited attempts remain blank. The exact reproduction commands and runnable source files still need to be brought together for a fresh-clone test.
+We used the latest observed result per available model/question cell, so these results describe this small dataset and prompt rather than the general quality of a model. Two D cells had an HTTP 429 response before the second attempt; their first attempts remain in the original and merged traces. Measurements unavailable on rate-limited attempts remain blank. The original orchestration script is now tracked in the repository. The SHA-256-checked `bootstrap_td1.py` restores the official runtime from the student pack, and offline replay was locally verified on the 20 Model C records (12/20 correct, matching the original score). Another member should still run the README commands from a fresh clone.
 
 The missing four B cells (C05–C08) must be supplied as original traces by the assigned operator, or clearly identified as instructor-provided historical/replayed data if the instructor authorizes that route. They cannot be silently substituted with generated results.
 
