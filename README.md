@@ -15,7 +15,7 @@
 - Rakesh Pallepogu
 - Guilhem LE DU
 - Mahij Gosai
-- Boukaina Bahami
+- Soukaina Bahami
 
 ## Environment
 
