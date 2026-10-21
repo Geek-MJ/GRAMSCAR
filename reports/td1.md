@@ -64,7 +64,7 @@ The cases below were selected from the group's recorded results to show the diff
 
 | Model / case | Observed outcome | Technical explanation |
 |---|---|---|
-| B / C02 | HTTP 200, incorrect: **0** instead of **590,320** cents | The SQL filters birthdays between September 2025 and September 2026 rather than the correct 25-year-old birth-date range. This is a semantic SQL error, not a provider failure. |
+| B / C02 | HTTP 200, incorrect: **0** instead of **590,320** cents | The SQL filters birthdays after 2025-09-25 through 2026-09-25 rather than the correct interval (`birth_date > '2000-09-25' AND birth_date <= '2001-09-25'`). It selects infants rather than customers aged 25. The model answered the nearby C09 age question correctly, showing this mistake is not consistent across cases. |
 | C / C08 | HTTP 200, incorrect: **2,826,250** instead of **605,580** cents | The generated age condition compares birthday month and day without enforcing the correct birth year; it includes customers outside the intended age group. |
 | E / C17 | HTTP 200, **`sql_invalid`** (SQLite syntax error near `AS`) | The generated `CAST` expression has misplaced parentheses. The API response succeeded, but SQLite could not execute the SQL. There is no numerical result to compare with **258,180** cents. |
 | D / C19 | First attempt **HTTP 429**, then HTTP 200 with incorrect **83,580** instead of **1,990** cents | The first call hit the Groq output-token rate limit and has no SQL or reported token counts. The retry produced runnable SQL but used a faulty exact-age filter. |
