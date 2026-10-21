@@ -57,5 +57,5 @@ The observations in the last column are based on the actual generated SQL in `tr
 
 - This is one run of one model on this fixed course dataset; it does not establish general model accuracy.
 - All responses in this file are genuine recorded outputs, including mistakes. No unsuccessful cases were silently corrected or re-run.
-- Other operators' model results should be combined in the subgroup's `model-question-comparison-en.csv` and `five-model-summary-en.csv`.
-- Incorporate these observations, division of work, independent reference checks, and any provider-access limitations in the final `reports/td1.md`. The group's full hand-in is **not** completed by this Model C report alone.
+- The results of all five models are now consolidated in `model-question-comparison-en.csv` and `five-model-summary-en.csv`.
+- This file documents Model C only; the full-group analysis and comparison are in [`reports/td1.md`](td1.md).
