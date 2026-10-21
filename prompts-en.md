@@ -1,0 +1,31 @@
+# TD 1 prompt used by the five models
+
+Taken verbatim from `skeleton-multi-llm-en.py` in student pack `2026-10-18-students-1`. The exact same system message and user template were used for every recorded model. `{schema}` is the content of `schema.sql` and `{question}` is the question text for each case. The SHA-256 fingerprint of the two messages appears in every trace.
+
+````python
+SYSTEM_PROMPT = ("You write SQLite queries for a small e-commerce database. Reply with exactly one "
+                 "SQLite SELECT statement and nothing else: no explanation, no comments, no markdown "
+                 "other than an optional ```sql fence.")
+
+USER_PROMPT_TEMPLATE = """Schema (SQLite):
+{schema}
+
+Conventions (binding):
+- product.price is the unit price in euro cents, excluding VAT (an integer). Revenue excluding VAT is SUM(quantity_product * price), an integer number of cents.
+- orders holds order lines: one row per (order_id, product_id). All lines of an order share the same customer_id and the same date.
+- orders.date and customers.insert_date are UTC timestamps stored as text 'YYYY-MM-DD HH:MM:SS'. customers.birth_date is a date stored as text 'YYYY-MM-DD'. Compare them as text or with SQLite date functions.
+- A period "from S to E" is closed on the left and open on the right: date >= S AND date < E.
+- A customer's age on a day D is the number of completed years: someone born on B is N years old on D when the N-th anniversary of B is on or before D and the (N+1)-th anniversary is after D. "Exactly 25 years old" means completed age 25 on that day, computed from month and day, never from the year difference alone.
+- Unless the question says "at the time of the order", ages are computed on the reference date given in the question.
+- The query must return exactly one row and one column named revenue_cents. When no order line matches, return 0 (use COALESCE), not NULL.
+- Use only the tables above. One SELECT statement, nothing else.
+
+Question: {question}"""
+
+
+def build_prompt(schema: str, question: str) -> tuple[str, str, str]:
+    """Return (system, user, sha256 of both). The hash goes into every trace line."""
+    user = USER_PROMPT_TEMPLATE.format(schema=schema.strip(), question=question)
+    digest = hashlib.sha256((SYSTEM_PROMPT + "\n" + user).encode("utf-8")).hexdigest()
+    return SYSTEM_PROMPT, user, digest
+````
