@@ -20,22 +20,22 @@ C04,openrouter:cohere/north-mini-code:free,traces-C.csv,openrouter:cohere/north-
 C04,groq:qwen/qwen3.8-27b,traces-D-C1-C10.csv,groq:qwen/qwen3.8-27b:C04,real,correct,2826250,2826250,SQL result matches the checked reference.
 C04,openrouter:dots-studio/dots-3-note-preview:free,trace-E-C01-10.csv,openrouter:dots-studio/dots-3-note-preview:free:C04,real,correct,2826250,2826250,SQL result matches the checked reference.
 C05,groq:openai/gpt-oss-120b,traces-A-C01-C10.csv,groq:openai/gpt-oss-120b:C05,real,correct,38480,38480,SQL result matches the checked reference.
-C05,groq:openai/gpt-oss-20b,,groq:openai/gpt-oss-20b:C05,,not_executed,,38480,No recorded API attempt in the repository yet; assigned operator needs to upload this cell.
+C05,groq:openai/gpt-oss-20b,traces-B-C05-C08.csv,groq:openai/gpt-oss-20b:C05,real,correct,38480,38480,SQL result matches the independently checked reference.
 C05,openrouter:cohere/north-mini-code:free,traces-C.csv,openrouter:cohere/north-mini-code:free:C05,real,correct,38480,38480,SQL result matches the checked reference.
 C05,groq:qwen/qwen3.8-27b,traces-D-C1-C10.csv,groq:qwen/qwen3.8-27b:C05,real,correct,38480,38480,SQL result matches the checked reference.
 C05,openrouter:dots-studio/dots-3-note-preview:free,trace-E-C01-10.csv,openrouter:dots-studio/dots-3-note-preview:free:C05,real,correct,38480,38480,SQL result matches the checked reference.
 C06,groq:openai/gpt-oss-120b,traces-A-C01-C10.csv,groq:openai/gpt-oss-120b:C06,real,correct,0,0,SQL result matches the checked reference.
-C06,groq:openai/gpt-oss-20b,,groq:openai/gpt-oss-20b:C06,,not_executed,,0,No recorded API attempt in the repository yet; assigned operator needs to upload this cell.
+C06,groq:openai/gpt-oss-20b,traces-B-C05-C08.csv,groq:openai/gpt-oss-20b:C06,real,correct,0,0,SQL result matches the independently checked reference.
 C06,openrouter:cohere/north-mini-code:free,traces-C.csv,openrouter:cohere/north-mini-code:free:C06,real,correct,0,0,SQL result matches the checked reference.
 C06,groq:qwen/qwen3.8-27b,traces-D-C1-C10.csv,groq:qwen/qwen3.8-27b:C06,real,correct,0,0,SQL result matches the checked reference.
 C06,openrouter:dots-studio/dots-3-note-preview:free,trace-E-C01-10.csv,openrouter:dots-studio/dots-3-note-preview:free:C06,real,correct,0,0,SQL result matches the checked reference.
 C07,groq:openai/gpt-oss-120b,traces-A-C01-C10.csv,groq:openai/gpt-oss-120b:C07,real,correct,13970,13970,SQL result matches the checked reference.
-C07,groq:openai/gpt-oss-20b,,groq:openai/gpt-oss-20b:C07,,not_executed,,13970,No recorded API attempt in the repository yet; assigned operator needs to upload this cell.
+C07,groq:openai/gpt-oss-20b,traces-B-C05-C08.csv,groq:openai/gpt-oss-20b:C07,real,correct,13970,13970,SQL result matches the independently checked reference.
 C07,openrouter:cohere/north-mini-code:free,traces-C.csv,openrouter:cohere/north-mini-code:free:C07,real,correct,13970,13970,SQL result matches the checked reference.
 C07,groq:qwen/qwen3.8-27b,traces-D-C1-C10.csv,groq:qwen/qwen3.8-27b:C07,real,correct,13970,13970,SQL result matches the checked reference.
 C07,openrouter:dots-studio/dots-3-note-preview:free,trace-E-C01-10.csv,openrouter:dots-studio/dots-3-note-preview:free:C07,real,correct,13970,13970,SQL result matches the checked reference.
 C08,groq:openai/gpt-oss-120b,traces-A-C01-C10.csv,groq:openai/gpt-oss-120b:C08,real,correct,605580,605580,SQL result matches the checked reference.
-C08,groq:openai/gpt-oss-20b,,groq:openai/gpt-oss-20b:C08,,not_executed,,605580,No recorded API attempt in the repository yet; assigned operator needs to upload this cell.
+C08,groq:openai/gpt-oss-20b,traces-B-C05-C08.csv,groq:openai/gpt-oss-20b:C08,real,correct,605580,605580,SQL result matches the independently checked reference.
 C08,openrouter:cohere/north-mini-code:free,traces-C.csv,openrouter:cohere/north-mini-code:free:C08,real,incorrect,2826250,605580,Tests month/day without enforcing the correct birth year.
 C08,groq:qwen/qwen3.8-27b,traces-D-C1-C10.csv,groq:qwen/qwen3.8-27b:C08,real,correct,605580,605580,SQL result matches the checked reference.
 C08,openrouter:dots-studio/dots-3-note-preview:free,trace-E-C01-10.csv,openrouter:dots-studio/dots-3-note-preview:free:C08,real,correct,605580,605580,SQL result matches the checked reference.
