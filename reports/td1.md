@@ -25,6 +25,27 @@ We ran the five proposed models with the common prompts from the course skeleton
 
 **Missing:** Model B on C05–C08 and Model D on C11–C20. These 14 cells are marked `not_executed` in the comparison, not treated as wrong answers. We must not interpret D's 10/10 as a final result for all 20 questions.
 
+## Models × questions — view of the comparison CSV
+
+✓ correct · × incorrect value · SQL invalid query · — not executed. Each cell is the latest recorded verdict, not a second manually maintained result.
+
+| Model | C01 | C02 | C03 | C04 | C05 | C06 | C07 | C08 | C09 | C10 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| B | ✓ | × | ✓ | ✓ | — | — | — | — | ✓ | ✓ |
+| C | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × |
+| D | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| E | ✓ | × | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | × |
+
+| Model | C11 | C12 | C13 | C14 | C15 | C16 | C17 | C18 | C19 | C20 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | × | ✓ |
+| B | × | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| C | × | ✓ | ✓ | ✓ | ✓ | ✓ | × | × | × | ✓ |
+| D | — | — | — | — | — | — | — | — | — | — |
+| E | ✓ | ✓ | ✓ | ✓ | × | × | SQL | × | ✓ | ✓ |
+
+
 ## What the traces show
 
 The simplest period-only calculations generally worked. The most frequent failures came from the age condition, especially the requirement to be **exactly** 25 on a reference date or on the order date.
