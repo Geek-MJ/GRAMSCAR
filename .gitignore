@@ -22,3 +22,7 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Offline replay artifacts (not original API evidence)
+replay-check.jsonl
+replay-check.csv
