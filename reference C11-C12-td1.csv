@@ -1,3 +1,0 @@
-case_id,sql,revenue_cents
-C11,"SELECT COALESCE(SUM(o.quantity_product * p.price), 0) AS revenue_cents FROM orders o JOIN product p ON p.product_id = o.product_id JOIN customers c ON c.customer_id = o.customer_id WHERE c.birth_date BETWEEN '2000-12-02' AND '2001-12-01'",446690
-C12,"SELECT COALESCE(SUM(o.quantity_product * p.price), 0) AS revenue_cents FROM orders o JOIN product p ON p.product_id = o.product_id WHERE o.product_id IN ('a','b','c')",1666490
