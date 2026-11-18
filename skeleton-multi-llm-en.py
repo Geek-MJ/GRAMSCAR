@@ -68,6 +68,7 @@ from dataclasses import asdict, dataclass, fields
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+from collections import Counter
 
 HERE = Path(__file__).resolve().parent
 
@@ -599,7 +600,7 @@ class Orchestrateur:
 
     # ---------------------------------------------------------------------
     # TO COMPLETE (TD 2): k-of-n voting
-    # ---------------------------------------------------------------------
+    # ---------------------------------------------------------------------    
     def vote_k_sur_n(self, traces_question: list, k: int):
         """TD 2 contract. `traces_question` holds the proposals of the panel for one
         question, as built by `atelier-vote.py`. Each proposal carries `provider`,
@@ -624,9 +625,57 @@ class Orchestrateur:
         families, and look in your traces for a case where several models agree
         on a wrong value.
         """
-        raise NotImplementedError("vote_k_sur_n: to implement in TD 2 (see the procedure in the docstring).")
 
+        n = len(traces_question)
+        if not (n // 2 < k <= n): #verifiying value of K
+            raise ValueError(f"Invalid k={k} for n={n}. Must satisfy n // 2 < k <= n.")
+    
+        seen_models = set()
+        valid_votes = [] # list of (value, model_id)
+    
+        for t in traces_question:
+            provider = t.get("provider", "") # get provider and model
+            model = t.get("model_requested", t.get("model", ""))
+            model_key = f"{provider}:{model}"
+        
+            if model_key in seen_models:
+                raise ValueError(f"Duplicate vote from model: {model_key}")
+            seen_models.add(model_key)
+        
+            # Check if executed and carries a value
+            verdict = t.get("verdict", "")
+            val = t.get("value", "")
+        
+            # consider a vote valid if value is present and not empty/null/error status
+            if val is not None and str(val).strip() != "" and verdict not in ("sql_invalid", "sql_rejected", "access_error", "not_executed", ""):
+                try:
+                    numeric_val = int(val)
+                    valid_votes.append((numeric_val, model_key))
+                except ValueError:
+                    pass # Non-numeric value cast no vote
 
+        if not valid_votes:
+            return {"consensus": False, "value": None, "votes": 0, "models": []}
+
+        # Count votes per value
+        value_counts = Counter([v[0] for v in valid_votes])
+        top_val, max_count = value_counts.most_common(1)[0]
+    
+        if max_count >= k:
+            agreeing_models = [model_key for v, model_key in valid_votes if v == top_val]
+            return {
+                "consensus": True,
+                "value": top_val,
+                "votes": max_count,
+                "models": agreeing_models
+            }
+        else:
+            return {
+                "consensus": False,
+                "value": None,
+                "votes": max_count,
+                "models": []
+            }
 # ==========================================================================
 # 8. Inputs of the kit: questions, references, models
 # ==========================================================================
