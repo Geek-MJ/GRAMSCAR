@@ -14,3 +14,20 @@ The work produced for Step 2 demonstrates a rigorous and methodical investigatio
 
 ## 4. Conclusion
 The analytical output is of **high academic quality**, effectively blending theoretical insights from the lectures with empirical verification on the SQLite database.
+
+# Evaluation Report: Pair C Deliverables (TD 2 - Step 3)
+
+## 1. Overview and Assessment
+The work produced across Step 3 establishes a structured and risk-aware routing pipeline combining empirical TD 1 accuracy metrics (`traces-td1.csv`), explicit verification policies, and an executable routing simulator (`atelier-routage.py`). The analysis properly grounds model selection in observed family-level performance while avoiding unsupported cost assumptions on free-tier APIs and strictly enforcing verification gates based on business impact (`dashboard`, `customer`, `payout`).
+
+## 2. Key Strengths of the Deliverables
+- **Accurate Trace Deduplication & Failure Taxonomy:** The baseline accuracy analysis (Person 1) rigorously deduplicated the 102 raw trace rows down to 100 unique cells by retaining only the final attempt for rate-limited retries (`qwen/qwen3.8-27b` on C19 and C20). Furthermore, it cleanly separated SQL syntax failures (`sql_invalid` for `dots-studio` on C17) from logical execution errors and pinpointed the core SQL breakdown patterns (fixed-date vs. order-date age boundaries and stacked condition failures).
+- **Risk-Proportional Verification Policy:** The routing rules (Person 2) accurately translate observed batch limitations into operational safeguards. Restricting the `none` verification bypass strictly to low-stakes internal dashboards—and exclusively when the selected free model achieved 100% accuracy on that exact family—prevents over-reliance on small sample sizes (`2` to `6` questions per family). High-impact flows (`customer` and `payout`) systematically enforce `3-of-5` quorum or deterministic reference/human validation.
+- **Faithful Simulator Implementation & Capacity Arbitration:** The standalone simulator (Person 3) faithfully encodes the routing constraints, fallback ordering, and abstention rules. Notably, the `--prefer-wait` flag implements smart resource arbitration by deferring non-urgent requests when a free quota refills before the deadline (`refill_minutes <= deadline`), preserving included subscription capacity for urgent tasks.
+
+## 3. Minor Areas for Alignment & Polish
+- **Family Partition Alignment (Critical):** There is a methodological divergence between the strict 20-case partition used in the baseline accuracy analysis (Person 1) and the overlapping multi-label grouping used in the routing rules and simulator (Persons 2 & 3). Under the overlapping grouping, `gpt-oss-120b` scores `7/8` (`87.5%`) on F2 due to combined questions, whereas under the strict partition it achieves `4/4` (`100%`), making it eligible for unverified internal dashboard routing. Updating the `PERSON2` dictionary in `atelier-routage.py` and the accuracy tables in Section 2 to match Person 1's strict partition will ensure complete consistency across the final report.
+- **Simulator Edge-Case Refinements:** In `load_models()`, the `evidence` dictionary currently collects all passing `case_id` values for a model rather than filtering them by the specific question family. Additionally, when `choose()` assigns a `3-of-5 quorum` check, adding an explicit availability check to confirm that at least three eligible models are concurrently `available=True` would prevent deadlocks during degraded API states.
+
+## 4. Conclusion
+The combined deliverables are of **high engineering and analytical quality**, successfully bridging empirical TD 1 error diagnostics with a transparent, risk-calibrated routing architecture ready for final report integration.
