@@ -1,0 +1,32 @@
+TD2 Person 3 — adapted to Person 2 routing policy
+WARNING: standalone replacement; all seven scenarios/quotas are illustrative, not instructor originals.
+F2b tie: GPT-OSS-20B provisionally chosen among free 2/2 models; no verified cost ranking.
+RUN means a model route is selected; required quorum/SQL/human checks are NOT performed.
+
+free_ready: RUN | groq:openai/gpt-oss-20b
+  check: none
+  reason: F1: 13/13 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C03, C04, C05, C06; free quota available now; validation is NOT executed
+
+subscription_ready: RUN | groq:openai/gpt-oss-120b
+  check: 3-of-5 quorum or deterministic validation
+  reason: F3: 6/7 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; included subscription capacity available immediately; validation is NOT executed
+
+deferrable: RUN | groq:openai/gpt-oss-120b
+  check: 3-of-5 quorum or deterministic validation
+  reason: F1: 12/13 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; included subscription capacity available immediately; validation is NOT executed
+
+deadline_too_soon: ABSTAIN | -
+  check: -
+  reason: F1: no eligible route available within deadline
+
+customer_checked: RUN | groq:openai/gpt-oss-20b
+  check: 3-of-5 quorum or deterministic validation
+  reason: F3: 7/7 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C03, C04, C05, C06; free quota available now; validation is NOT executed
+
+payout_checked: RUN | groq:openai/gpt-oss-120b
+  check: deterministic SQL validation or human review
+  reason: F2: 7/8 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; free quota available now; validation is NOT executed
+
+all_unavailable: ABSTAIN | -
+  check: -
+  reason: F1: no eligible route available within deadline
