@@ -12,11 +12,11 @@ MODEL_120 = 'groq:openai/gpt-oss-120b'
 MODEL_QWEN = 'groq:qwen/qwen3.8-27b'
 # Family scores and preferences supplied by Person 2, not inferred from overlapping summary columns.
 PERSON2 = {
-    'F1': {'preferred': MODEL_20, 'scores': {MODEL_20: (13,13)}},
-    'F2': {'preferred': MODEL_120, 'scores': {MODEL_120: (7,8)}},
+    'F1': {'preferred': MODEL_20, 'scores': {MODEL_20: (6,6)}},
+    'F2': {'preferred': MODEL_120, 'scores': {MODEL_120: (4,4)}},
     'F2b': {'preferred': MODEL_20, 'scores': {MODEL_20: (2,2), MODEL_120: (2,2), MODEL_QWEN: (2,2)}},
-    'F3': {'preferred': MODEL_20, 'scores': {MODEL_20: (7,7)}},
-    'combinations': {'preferred': MODEL_20, 'scores': {MODEL_20: (8,8)}},
+    'F3': {'preferred': MODEL_20, 'scores': {MODEL_20: (4,4)}},
+    'combinations': {'preferred': MODEL_20, 'scores': {MODEL_20: (4,4)}},
 }
 # Other models are fallback candidates, using published TD1 summary for F1/F3/combinations.
 # F2 and F2b fallback accuracy is intentionally NOT inferred from combined age_results.
@@ -31,14 +31,29 @@ def load_models():
     resources=[]
     for row in summary:
         ident=f"{row['provider']}:{row['model_id']}"
-        scores={}
-        for family,col in SUMMARY_COLUMNS.items():
-            fraction=row[col].split(' correct')[0]
-            scores[family]=tuple(map(int,fraction.split('/')))
-        for family,rule in PERSON2.items():
-            if ident in rule['scores']:
-                scores[family]=rule['scores'][ident]
-        evidence={family:[c['case_id'] for c in cells if c['model_id']==ident and c['status']=='correct'] for family in scores}
+        verified = {
+            'groq:openai/gpt-oss-20b': [(6,6),(2,4),(2,2),(4,4),(4,4)],
+            'groq:openai/gpt-oss-120b': [(6,6),(4,4),(2,2),(4,4),(3,4)],
+            'groq:qwen/qwen3.8-27b': [(6,6),(4,4),(2,2),(4,4),(0,4)],
+        }
+        families = ['F1','F2','F2b','F3','combinations']
+        scores = dict(zip(families, verified[ident])) if ident in verified else {}
+        family_cases = {
+            'F1': {'C01', 'C04', 'C05', 'C06', 'C07', 'C20'},
+            'F2': {'C02', 'C08', 'C09', 'C11'},
+            'F2b': {'C10', 'C18'},
+            'F3': {'C03', 'C12', 'C13', 'C14'},
+            'combinations': {'C15', 'C16', 'C17', 'C19'},
+        }
+        evidence = {
+            family: [
+                c['case_id'] for c in cells
+                if c['model_id'] == ident
+                and c['status'] == 'correct'
+                and c['case_id'] in family_cases[family]
+            ]
+            for family in scores
+        }
         resources.append({'id':ident,'scores':scores,'evidence':evidence,'route':'free',
                           'cash':0.0,'allocation':0,'refill_minutes':20,'available':True,
                           'price_note':row['input_usd_per_million'],
@@ -105,7 +120,7 @@ def choose(resources,family,use,deadline,prefer_wait=False):
         r,check,correct,total=x
         ids=', '.join(r['evidence'].get(family,[])[:5]) or 'family IDs pending Person 1'
         return (action,r['id'],check,f'{family}: {correct}/{total} correct (Person 2); '
-                f'example correct TD1 cells (not family-filtered): {ids}; {why}; validation is NOT executed')
+                f'example correct TD1 cells (family-filtered): {ids}; {why}; validation is NOT executed')
     if now_free:return pack('run',now_free[0],'free quota available now')
     if prefer_wait and wait:
         return pack('defer',min(wait,key=lambda x:x[0]['refill_minutes']),
