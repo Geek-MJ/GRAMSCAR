@@ -5,15 +5,15 @@ RUN means a model route is selected; required quorum/SQL/human checks are NOT pe
 
 free_ready: RUN | groq:openai/gpt-oss-20b
   check: none
-  reason: F1: 13/13 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C03, C04, C05, C06; free quota available now; validation is NOT executed
+  reason: F1: 6/6 correct (Person 2); example correct TD1 cells (family-filtered): C01, C04, C05, C06, C07; free quota available now; validation is NOT executed
 
 subscription_ready: RUN | groq:openai/gpt-oss-120b
   check: 3-of-5 quorum or deterministic validation
-  reason: F3: 6/7 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; included subscription capacity available immediately; validation is NOT executed
+  reason: F3: 4/4 correct (Person 2); example correct TD1 cells (family-filtered): C03, C12, C13, C14; included subscription capacity available immediately; validation is NOT executed
 
 deferrable: RUN | groq:openai/gpt-oss-120b
   check: 3-of-5 quorum or deterministic validation
-  reason: F1: 12/13 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; included subscription capacity available immediately; validation is NOT executed
+  reason: F1: 6/6 correct (Person 2); example correct TD1 cells (family-filtered): C01, C04, C05, C06, C07; included subscription capacity available immediately; validation is NOT executed
 
 deadline_too_soon: ABSTAIN | -
   check: -
@@ -21,11 +21,11 @@ deadline_too_soon: ABSTAIN | -
 
 customer_checked: RUN | groq:openai/gpt-oss-20b
   check: 3-of-5 quorum or deterministic validation
-  reason: F3: 7/7 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C03, C04, C05, C06; free quota available now; validation is NOT executed
+  reason: F3: 4/4 correct (Person 2); example correct TD1 cells (family-filtered): C03, C12, C13, C14; free quota available now; validation is NOT executed
 
 payout_checked: RUN | groq:openai/gpt-oss-120b
   check: deterministic SQL validation or human review
-  reason: F2: 7/8 correct (Person 2); example correct TD1 cells (not family-filtered): C01, C02, C03, C04, C05; free quota available now; validation is NOT executed
+  reason: F2: 4/4 correct (Person 2); example correct TD1 cells (family-filtered): C02, C08, C09, C11; free quota available now; validation is NOT executed
 
 all_unavailable: ABSTAIN | -
   check: -

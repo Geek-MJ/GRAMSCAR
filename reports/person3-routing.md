@@ -13,11 +13,11 @@ python3 atelier-routage-person3.py --scenario deferrable --prefer-wait
 ```
 
 ## Person 2 routing choices implemented
-- F1: GPT-OSS-20B, 13/13.
-- F2: GPT-OSS-120B, 7/8, **verification required**.
-- F2b: GPT-OSS-20B provisionally selected from GPT-OSS-20B, GPT-OSS-120B and Qwen (all 2/2). These are free routes in the supplied portfolio; no validated cost ordering for the tie was provided.
-- F3: GPT-OSS-20B, 7/7.
-- Combinations: GPT-OSS-20B, 8/8.
+- F1: GPT-OSS-20B, 6/6 (100%).
+- F2: GPT-OSS-120B, 4/4 (100%).
+- F2b: GPT-OSS-20B, 2/2 (100%), provisionally selected among tied models.
+- F3: GPT-OSS-20B, 4/4 (100%).
+- Combinations: GPT-OSS-20B, 4/4 (100%).
 
 The source `five-model-summary-en.csv` combines F2 and F2b as `age_results`. The separate F2/F2b figures are taken from Person 2's message and should be cross-checked with Person 1's exact question IDs before submission. Other candidates for F2/F2b are **not** assigned invented family scores.
 

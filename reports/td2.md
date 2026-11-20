@@ -44,11 +44,11 @@ The professor's original `atelier-routage.py` was not supplied. Consequently, th
 
 | Question family | Preferred model | Observed score | Policy |
 |---|---|---|---|
-| F1 (period) | GPT-OSS-20B | 13/13 | Free route preferred |
-| F2 (fixed-reference age) | GPT-OSS-120B | 7/8 | Verification required |
+| F1 (period) | GPT-OSS-20B | 6/6 | Free route preferred |
+| F2 (fixed-reference age) | GPT-OSS-120B | 4/4 | Verification required |
 | F2b (age at order date) | GPT-OSS-20B (provisional tie choice) | 2/2 | Compare costs before final choice |
-| F3 (product lists) | GPT-OSS-20B | 7/7 | Free route preferred |
-| Combinations | GPT-OSS-20B | 8/8 | Free route preferred |
+| F3 (product lists) | GPT-OSS-20B | 4/4 | Free route preferred |
+| Combinations | GPT-OSS-20B | 4/4 | Free route preferred |
 
 For an internal dashboard, no additional check is requested only when a **free** route has 100% observed accuracy for the relevant family. Customer-facing results require a 3-of-5 quorum or deterministic validation. Payout results require deterministic SQL validation or human review. Selecting a route does not satisfy these checks.
 
@@ -56,7 +56,7 @@ For an internal dashboard, no additional check is requested only when a **free**
 
 | Scenario | Action | Model | Required check |
 |---|---|---|---|
-| `free_ready` | RUN | GPT-OSS-20B | None (F1 dashboard, free 13/13) |
+| `free_ready` | RUN | GPT-OSS-20B | None (F1 dashboard, free 6/6) |
 | `subscription_ready` | RUN | GPT-OSS-120B | 3-of-5 quorum or deterministic validation |
 | `deferrable` (default priority) | RUN | GPT-OSS-120B | 3-of-5 quorum or deterministic validation |
 | `deadline_too_soon` | ABSTAIN | — | — |
