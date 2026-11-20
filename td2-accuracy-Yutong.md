@@ -1,4 +1,4 @@
-# TD1 Accuracy Analysis — Person 1 Deliverable
+# TD2 Accuracy Analysis — Person 1 Deliverable
 
 **Source data:** `traces-td1.csv` (100 executed cells, 5 models × 20 questions C01–C20) cross-checked against `reference-td1.csv` (20 reference answers).
 **Dedup rule:** 100 unique `cell_id`. Two cells had `attempts = 2` (qwen3.8-27b, C19 and C20); the **final attempt** is used for the verdict, as required by the TD1 protocol.
