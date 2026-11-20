@@ -646,13 +646,13 @@ class Orchestrateur:
                 raise ValueError(f"Duplicate vote from model: {model_key}")
             seen_models.add(model_key)
             
-            # Un vote est valide si la valeur existe, n'est pas vide et le verdict n'est pas une erreur
-            if val is not None and str(val).strip() != "" and verdict not in ("sql_invalid", "sql_rejected", "access_error", "not_executed", "error", ""):
+            # Accepter explicitement uniquement les propositions exécutées avec une valeur numérique non nulle/non vide
+            if verdict == "executed" and val is not None and str(val).strip() != "":
                 try:
                     numeric_val = int(val)
                     valid_votes.append((numeric_val, model_key))
                 except (ValueError, TypeError):
-                    pass  # Valeur non convertible en entier
+                    pass
 
         if not valid_votes:
             return {"consensus": False, "value": None, "votes": 0, "models": []}
